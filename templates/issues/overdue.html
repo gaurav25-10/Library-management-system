@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Overdue Books{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div><h1>Overdue Books</h1><p>Fine is calculated at Rs. 5 per day after due date.</p></div>
+</div>
+<section class="panel">
+    <div class="table-responsive">
+        <table class="table align-middle sortable">
+            <thead><tr><th>Student</th><th>Roll Number</th><th>Book</th><th>Due Date</th><th>Current Fine</th></tr></thead>
+            <tbody>
+            {% for issue in overdue_issues %}
+            <tr><td>{{ issue.student.name }}</td><td>{{ issue.student.roll_number }}</td><td>{{ issue.book.title }}</td><td>{{ issue.due_date }}</td><td>Rs. {{ '%.2f'|format(issue.calculate_fine()) }}</td></tr>
+            {% else %}
+            <tr><td colspan="5" class="text-center text-muted">No overdue books.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

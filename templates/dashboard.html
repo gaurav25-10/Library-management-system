@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Dashboard</h1>
+        <p>Live overview of books, students, circulation, and overdue records.</p>
+    </div>
+</div>
+<div class="row g-3">
+    {% set cards = [
+        ('Total Books', stats.total_books, 'bi-journal-bookmark', 'blue'),
+        ('Total Students', stats.total_students, 'bi-people', 'green'),
+        ('Issued Books', stats.issued_books, 'bi-box-arrow-up-right', 'amber'),
+        ('Returned Books', stats.returned_books, 'bi-check2-circle', 'cyan'),
+        ('Overdue Books', stats.overdue_books, 'bi-exclamation-triangle', 'red')
+    ] %}
+    {% for label, value, icon, tone in cards %}
+    <div class="col-12 col-sm-6 col-xl">
+        <div class="stat-card {{ tone }}">
+            <div>
+                <span>{{ label }}</span>
+                <strong>{{ value }}</strong>
+            </div>
+            <i class="bi {{ icon }}"></i>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="row g-3 mt-1">
+    <div class="col-lg-7">
+        <section class="panel">
+            <h2>Circulation Summary</h2>
+            <canvas id="issueChart" data-issued="{{ stats.issued_books }}" data-returned="{{ stats.returned_books }}" data-overdue="{{ stats.overdue_books }}"></canvas>
+        </section>
+    </div>
+    <div class="col-lg-5">
+        <section class="panel">
+            <h2>Book Categories</h2>
+            <canvas id="categoryChart" data-labels='{{ category_counts.keys()|list|tojson }}' data-values='{{ category_counts.values()|list|tojson }}'></canvas>
+        </section>
+    </div>
+</div>
+<section class="panel mt-3">
+    <h2>Recent Issues</h2>
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead><tr><th>Student</th><th>Book</th><th>Issue Date</th><th>Due Date</th><th>Status</th></tr></thead>
+            <tbody>
+            {% for issue in recent_issues %}
+            <tr>
+                <td>{{ issue.student.name }}</td>
+                <td>{{ issue.book.title }}</td>
+                <td>{{ issue.issue_date }}</td>
+                <td>{{ issue.due_date }}</td>
+                <td><span class="badge text-bg-{{ 'success' if issue.status == 'Returned' else 'danger' if issue.status == 'Overdue' else 'primary' }}">{{ issue.status }}</span></td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="text-center text-muted">No records found.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

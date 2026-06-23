@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Book Issues{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div><h1>Book Circulation</h1><p>Track issued and returned books with fines.</p></div>
+    <a class="btn btn-primary" href="{{ url_for('issues.issue_book') }}"><i class="bi bi-plus-lg"></i> Issue Book</a>
+</div>
+<section class="panel">
+    <div class="segmented">
+        <a class="btn btn-sm {{ 'btn-primary' if status == 'issued' else 'btn-light' }}" href="{{ url_for('issues.index', status='issued') }}">Issued</a>
+        <a class="btn btn-sm {{ 'btn-primary' if status == 'returned' else 'btn-light' }}" href="{{ url_for('issues.index', status='returned') }}">Returned</a>
+        <a class="btn btn-sm {{ 'btn-primary' if status == 'overdue' else 'btn-light' }}" href="{{ url_for('issues.index', status='overdue') }}">Overdue</a>
+    </div>
+    <div class="table-responsive mt-3">
+        <table class="table align-middle sortable">
+            <thead><tr><th>ID</th><th>Student</th><th>Book</th><th>Issue Date</th><th>Due Date</th><th>Return Date</th><th>Fine</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+            {% for issue in issues.items %}
+            <tr>
+                <td>{{ issue.id }}</td><td>{{ issue.student.name }}</td><td>{{ issue.book.title }}</td><td>{{ issue.issue_date }}</td><td>{{ issue.due_date }}</td>
+                <td>{{ issue.return_date or '-' }}</td><td>Rs. {{ '%.2f'|format(issue.fine if issue.return_date else issue.calculate_fine()) }}</td>
+                <td><span class="badge text-bg-{{ 'success' if issue.status == 'Returned' else 'danger' if issue.status == 'Overdue' else 'primary' }}">{{ issue.status }}</span></td>
+                <td>
+                    {% if not issue.return_date %}
+                    <form method="post" action="{{ url_for('issues.return_book', issue_id=issue.id) }}"><button class="btn btn-sm btn-outline-success"><i class="bi bi-check2"></i> Return</button></form>
+                    {% else %}-{% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="9" class="text-center text-muted">No circulation records found.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% with pagination=issues, endpoint='issues.index' %}{% include "_pagination.html" %}{% endwith %}
+</section>
+{% endblock %}

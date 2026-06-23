@@ -1,0 +1,21 @@
+{% if pagination.pages > 1 %}
+<nav aria-label="Table pages">
+    <ul class="pagination justify-content-end">
+        <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+            <a class="page-link" href="{{ url_for(endpoint, page=pagination.prev_num, search=search|default(''), sort=sort|default(''), status=status|default('')) }}">Previous</a>
+        </li>
+        {% for page in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+            {% if page %}
+                <li class="page-item {% if page == pagination.page %}active{% endif %}">
+                    <a class="page-link" href="{{ url_for(endpoint, page=page, search=search|default(''), sort=sort|default(''), status=status|default('')) }}">{{ page }}</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">...</span></li>
+            {% endif %}
+        {% endfor %}
+        <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+            <a class="page-link" href="{{ url_for(endpoint, page=pagination.next_num, search=search|default(''), sort=sort|default(''), status=status|default('')) }}">Next</a>
+        </li>
+    </ul>
+</nav>
+{% endif %}

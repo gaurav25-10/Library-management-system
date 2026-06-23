@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Issue Book{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div><h1>Issue Book</h1><p>Select a student, choose an available book, and set return due date.</p></div>
+</div>
+<section class="panel form-panel">
+    <form method="post" class="row g-3 needs-validation" novalidate>
+        <div class="col-md-6">
+            <label class="form-label">Student</label>
+            <select class="form-select" name="student_id" required>
+                <option value="">Select student</option>
+                {% for student in students %}<option value="{{ student.id }}">{{ student.name }} - {{ student.roll_number }}</option>{% endfor %}
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Book</label>
+            <select class="form-select" name="book_id" required>
+                <option value="">Select book</option>
+                {% for book in books %}<option value="{{ book.id }}">{{ book.title }} by {{ book.author }} ({{ book.available_quantity }} available)</option>{% endfor %}
+            </select>
+        </div>
+        <div class="col-md-6"><label class="form-label">Issue Date</label><input type="date" class="form-control" name="issue_date" value="{{ today }}" required></div>
+        <div class="col-md-6"><label class="form-label">Due Date</label><input type="date" class="form-control" name="due_date" required></div>
+        <div class="col-12 d-flex gap-2">
+            <button class="btn btn-primary"><i class="bi bi-send"></i> Issue Book</button>
+            <a class="btn btn-light" href="{{ url_for('issues.index') }}">Cancel</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

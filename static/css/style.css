@@ -1,0 +1,292 @@
+:root {
+    --bg: #f5f7fb;
+    --ink: #1f2937;
+    --muted: #667085;
+    --sidebar: #111827;
+    --primary: #2563eb;
+    --border: #e5e7eb;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    background: var(--sidebar);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 260px;
+    padding: 22px 16px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.brand {
+    align-items: center;
+    display: flex;
+    font-size: 1.25rem;
+    font-weight: 700;
+    gap: 10px;
+    margin-bottom: 26px;
+}
+
+.brand i {
+    color: #60a5fa;
+    font-size: 1.7rem;
+}
+
+.sidebar .nav-link,
+.logout-link {
+    align-items: center;
+    border-radius: 8px;
+    color: #cbd5e1;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 6px;
+    padding: 11px 12px;
+    text-decoration: none;
+}
+
+.sidebar .nav-link:hover,
+.logout-link:hover {
+    background: #1f2937;
+    color: #fff;
+}
+
+.logout-link {
+    margin-top: auto;
+}
+
+.content {
+    flex: 1;
+    min-width: 0;
+    padding: 28px;
+}
+
+.page-header {
+    align-items: center;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.page-header h1 {
+    font-size: 1.75rem;
+    font-weight: 750;
+    margin: 0;
+}
+
+.page-header p {
+    color: var(--muted);
+    margin: 4px 0 0;
+}
+
+.panel,
+.stat-card,
+.login-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+}
+
+.panel {
+    padding: 20px;
+}
+
+.panel h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.stat-card {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    min-height: 118px;
+    padding: 18px;
+}
+
+.stat-card span {
+    color: var(--muted);
+    display: block;
+    font-size: 0.92rem;
+}
+
+.stat-card strong {
+    display: block;
+    font-size: 2rem;
+    line-height: 1.1;
+    margin-top: 8px;
+}
+
+.stat-card i {
+    border-radius: 8px;
+    color: #fff;
+    display: grid;
+    font-size: 1.5rem;
+    height: 48px;
+    place-items: center;
+    width: 48px;
+}
+
+.stat-card.blue i { background: #2563eb; }
+.stat-card.green i { background: #059669; }
+.stat-card.amber i { background: #d97706; }
+.stat-card.cyan i { background: #0891b2; }
+.stat-card.red i { background: #dc2626; }
+
+.toolbar {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: minmax(220px, 1fr) 220px auto;
+    margin-bottom: 18px;
+}
+
+.table {
+    margin-bottom: 18px;
+}
+
+.table thead th {
+    background: #f8fafc;
+    color: #475569;
+    cursor: pointer;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.form-panel {
+    max-width: 900px;
+}
+
+.segmented {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.flash-stack {
+    margin-bottom: 16px;
+}
+
+.login-page {
+    align-items: center;
+    background: linear-gradient(135deg, #e0f2fe, #f8fafc 45%, #dcfce7);
+    display: flex;
+    min-height: 100vh;
+    justify-content: center;
+    padding: 22px;
+}
+
+.login-card {
+    max-width: 430px;
+    padding: 34px;
+    width: 100%;
+}
+
+.login-card h1 {
+    font-size: 1.55rem;
+    font-weight: 750;
+    margin: 12px 0 6px;
+}
+
+.login-card p,
+.demo-note {
+    color: var(--muted);
+}
+
+.login-mark {
+    background: #eff6ff;
+    border-radius: 8px;
+    color: var(--primary);
+    display: grid;
+    font-size: 2rem;
+    height: 64px;
+    place-items: center;
+    width: 64px;
+}
+
+.demo-note {
+    font-size: 0.9rem;
+    margin-top: 18px;
+    text-align: center;
+}
+
+.empty-state {
+    margin: 60px auto;
+    max-width: 520px;
+    text-align: center;
+}
+
+.empty-state h1 {
+    font-size: 4rem;
+    font-weight: 800;
+}
+
+canvas {
+    max-height: 310px;
+}
+
+@media (max-width: 900px) {
+    .app-shell {
+        display: block;
+    }
+
+    .sidebar {
+        height: auto;
+        position: relative;
+        width: 100%;
+    }
+
+    .sidebar .nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .logout-link {
+        margin-top: 10px;
+    }
+
+    .content {
+        padding: 18px;
+    }
+
+    .page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .toolbar {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .sidebar .nav {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card strong {
+        font-size: 1.6rem;
+    }
+}

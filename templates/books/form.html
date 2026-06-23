@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit Book' if book else 'Add Book' }}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div><h1>{{ 'Edit Book' if book else 'Add Book' }}</h1><p>Enter accurate catalogue details for the book.</p></div>
+</div>
+<section class="panel form-panel">
+    <form method="post" class="row g-3 needs-validation" novalidate>
+        <div class="col-md-6"><label class="form-label">Title</label><input class="form-control" name="title" value="{{ book.title if book else '' }}" required></div>
+        <div class="col-md-6"><label class="form-label">Author</label><input class="form-control" name="author" value="{{ book.author if book else '' }}" required></div>
+        <div class="col-md-6"><label class="form-label">Category</label><input class="form-control" name="category" value="{{ book.category if book else '' }}" required></div>
+        <div class="col-md-6"><label class="form-label">ISBN</label><input class="form-control" name="isbn" value="{{ book.isbn if book else '' }}" required></div>
+        <div class="col-md-6"><label class="form-label">Quantity</label><input type="number" min="0" class="form-control" name="quantity" value="{{ book.quantity if book else '1' }}" required></div>
+        <div class="col-md-6"><label class="form-label">Publication Year</label><input type="number" min="1000" class="form-control" name="publication_year" value="{{ book.publication_year if book else '2024' }}" required></div>
+        <div class="col-12 d-flex gap-2">
+            <button class="btn btn-primary"><i class="bi bi-save"></i> Save</button>
+            <a class="btn btn-light" href="{{ url_for('books.index') }}">Cancel</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

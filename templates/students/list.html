@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div><h1>Students</h1><p>Maintain registered student records.</p></div>
+    <a class="btn btn-primary" href="{{ url_for('students.add') }}"><i class="bi bi-person-plus"></i> Add Student</a>
+</div>
+<section class="panel">
+    <form class="toolbar" method="get">
+        <input class="form-control" name="search" value="{{ search }}" placeholder="Search name, roll number, or course">
+        <select class="form-select" name="sort">
+            <option value="name" {% if sort == 'name' %}selected{% endif %}>Sort by Name</option>
+            <option value="roll" {% if sort == 'roll' %}selected{% endif %}>Sort by Roll No</option>
+            <option value="course" {% if sort == 'course' %}selected{% endif %}>Sort by Course</option>
+        </select>
+        <button class="btn btn-outline-primary"><i class="bi bi-search"></i> Search</button>
+    </form>
+    <div class="table-responsive">
+        <table class="table align-middle sortable">
+            <thead><tr><th>ID</th><th>Name</th><th>Roll Number</th><th>Course</th><th>Email</th><th>Phone</th><th>Actions</th></tr></thead>
+            <tbody>
+            {% for student in students.items %}
+            <tr>
+                <td>{{ student.id }}</td><td>{{ student.name }}</td><td>{{ student.roll_number }}</td><td>{{ student.course }}</td><td>{{ student.email }}</td><td>{{ student.phone }}</td>
+                <td class="actions">
+                    <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('students.edit', student_id=student.id) }}"><i class="bi bi-pencil"></i></a>
+                    <form method="post" action="{{ url_for('students.delete', student_id=student.id) }}" onsubmit="return confirm('Delete this student?')">
+                        <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="7" class="text-center text-muted">No students found.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% with pagination=students, endpoint='students.index' %}{% include "_pagination.html" %}{% endwith %}
+</section>
+{% endblock %}
